@@ -10,14 +10,16 @@ function App() {
 
   /* By moving the fetch call inside the useEffect hook and providing an empty dependency array, the fetch operation will only execute once, when the component is first rendered. This prevents the infinite loop caused by the state update (setTodos) triggering a re-render, which would otherwise cause the fetch to be called again and again. */
   useEffect(() => {
-    fetch("http://localhost:3000/todos")
-      .then(async function (res) {
-        const json = await res.json();
-        setTodos(json.todos);
-      })
-      .catch((error) => {
-        console.log("Error fetching todos:", error);
-      });
+    setInterval(() => {
+      fetch("http://localhost:3000/todos")
+        .then(async function (res) {
+          const json = await res.json();
+          setTodos(json.todos);
+        })
+        .catch((error) => {
+          console.log("Error fetching todos:", error);
+        });
+    }, 3000);
   }, []);
 
   const toggleComplete = (index) => {
